@@ -7,7 +7,7 @@ FROM node:22-bookworm-slim
 
 # Rust toolchain (needed for the Rust -> WebAssembly builder).
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      curl ca-certificates git build-essential xz-utils \
+      curl ca-certificates git build-essential xz-utils python3 python-is-python3 \
     && rm -rf /var/lib/apt/lists/*
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
