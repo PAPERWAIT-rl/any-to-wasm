@@ -1,0 +1,27 @@
+{
+  "name": "any-to-wasm",
+  "version": "1.0.0",
+  "description": "Upload a zip or point at a GitHub repo, get back a downloadable HTML/CSS/JS(+WASM) website.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PAPERWAIT-rl/any-to-wasm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PAPERWAIT-rl/any-to-wasm/issues"
+  },
+  "homepage": "https://github.com/PAPERWAIT-rl/any-to-wasm#readme",
+  "dependencies": {
+    "adm-zip": "^0.6.1",
+    "archiver": "^7.0.1",
+    "express": "^5.2.1",
+    "multer": "^2.4.0"
+  }
+}
