@@ -19,7 +19,8 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --pr
 # install; drop this block (and the C/C++ builder) if image size matters
 # more than C/C++ support.
 RUN git clone --depth 1 https://github.com/emscripten-core/emsdk.git /opt/emsdk \
-    && /opt/emsdk/emsdk install latest && /opt/emsdk/emsdk activate latest
+    && /opt/emsdk/emsdk install latest && /opt/emsdk/emsdk activate latest \
+    && rm -rf /opt/emsdk/downloads /opt/emsdk/.git
 ENV PATH=/opt/emsdk:/opt/emsdk/upstream/emscripten:$PATH
 
 # TinyGo, for the Go -> WebAssembly builder. TinyGo shells out to a real Go
@@ -30,7 +31,7 @@ ARG TINYGO_VERSION=0.34.0
 RUN curl -fsSL -o /tmp/tinygo.deb \
       "https://github.com/tinygo-org/tinygo/releases/download/v${TINYGO_VERSION}/tinygo_${TINYGO_VERSION}_amd64.deb" \
     && apt-get install -y --no-install-recommends /tmp/tinygo.deb \
-    && rm /tmp/tinygo.deb
+    && rm -rf /tmp/tinygo.deb /var/cache/apt/archives/*.deb
 
 WORKDIR /app
 COPY package*.json ./
