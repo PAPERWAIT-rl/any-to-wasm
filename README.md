@@ -21,11 +21,12 @@ applicable) that runs the project in the browser.
      executed as Python on the server.
    - **Plain HTML/CSS/JS projects** — already a website, so they're
      repackaged as-is.
-   - **Go** — best-effort: if the server has [TinyGo](https://tinygo.org)
-     installed, it's compiled to `wasm32-wasip1` and run with the same WASI
-     shim as Rust. Otherwise falls back to the source viewer below.
-   - **C/C++** — best-effort: if the server has
-     [Emscripten](https://emscripten.org) (`emcc`) installed, it's compiled
+   - **Go** — if the server has [TinyGo](https://tinygo.org) installed
+     (it is, in the provided `Dockerfile`), it's compiled to `wasm32-wasip1`
+     and run with the same WASI shim as Rust. Otherwise falls back to the
+     source viewer below.
+   - **C/C++** — if the server has [Emscripten](https://emscripten.org)
+     (`emcc`) installed (it is, in the provided `Dockerfile`), it's compiled
      to WebAssembly with Emscripten's own HTML/JS shell. Otherwise falls
      back to the source viewer below.
    - **Anything else** (or any build failure) — falls back to a generated
@@ -50,11 +51,16 @@ Requirements for full functionality:
   the server attempts to install the target automatically via `rustup`
   when a Rust project is submitted.
 - **git** — for the "GitHub repo" input mode.
-- Optional: **TinyGo** and **Emscripten** on `PATH` to enable the Go and
-  C/C++ builders; without them, those project types fall back to the
-  source-browser output.
+- Optional: **TinyGo** (plus a Go 1.19-1.23 toolchain, which TinyGo shells
+  out to) and **Emscripten** (`emcc`) on `PATH` to enable the Go and C/C++
+  builders; without them, those project types fall back to the
+  source-browser output. Installing these yourself is slow and adds real
+  image weight (Emscripten alone is roughly a 1 GB download) — the
+  provided `Dockerfile` installs both, so `docker build` gets you every
+  builder without manual setup.
 
-See `Dockerfile` for a container image with Node + Rust preinstalled.
+See `Dockerfile` for a container image with Node, Rust, Emscripten, and
+TinyGo all preinstalled.
 
 ## API
 
