@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>any-to-wasm</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>any&#8209;to&#8209;wasm</h1>
+    <p>Upload a <strong>.zip</strong> of a project, or point at a public <strong>GitHub repo</strong>. We'll detect the
+      language, compile it to WebAssembly where we can (Rust, and best-effort Go/C/C++), or run it in-browser
+      via a WASM runtime (Python via Pyodide), package it as a static HTML/CSS/JS(+WASM) site, and hand you a
+      zip you can host anywhere.</p>
+  </header>
+
+  <div class="panel">
+    <div class="tabs">
+      <button class="tab active" data-tab="zip">Upload zip</button>
+      <button class="tab" data-tab="repo">GitHub repo</button>
+    </div>
+
+    <form id="convert-form">
+      <div class="tab-panel" id="tab-zip">
+        <label class="dropzone" id="dropzone" for="zip-input">
+          <span id="dropzone-label">Drag &amp; drop a .zip here, or click to choose a file</span>
+          <input type="file" id="zip-input" name="zip" accept=".zip,application/zip" hidden />
+        </label>
+      </div>
+      <div class="tab-panel" id="tab-repo" hidden>
+        <input type="url" id="repo-input" name="repoUrl" placeholder="https://github.com/owner/repo" />
+        <p class="hint">Public repositories only, cloned at <code>--depth 1</code>.</p>
+      </div>
+      <button type="submit" id="convert-btn">Convert</button>
+    </form>
+  </div>
+
+  <div class="panel" id="result-panel" hidden>
+    <div id="result-header">
+      <span class="badge" id="result-type"></span>
+      <span id="result-fallback" class="badge warn" hidden>fell back to source viewer</span>
+    </div>
+    <div class="terminal" id="log"></div>
+    <div id="actions" hidden>
+      <a class="btn" id="download-link" href="#">Download website.zip</a>
+      <a class="btn secondary" id="preview-link" href="#" target="_blank" rel="noopener">Open live preview</a>
+    </div>
+    <iframe id="preview-frame" hidden title="Generated site preview"></iframe>
+  </div>
+
+  <footer>Runs your build server-side for compiled languages (Rust today; Go/C++ if the server has TinyGo/Emscripten installed). Python runs entirely client-side via Pyodide &mdash; nothing you upload is ever executed as Python on this server.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
